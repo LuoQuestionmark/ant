@@ -15,6 +15,14 @@ vect_s * vect_init(double * array, int len) {
     return v;
 }
 
+vect_s * vect_zeros(int len) {
+    vect_s* v = calloc(1, sizeof(vect_s));
+    v->len = len;
+    v->array = calloc(len, sizeof(double));
+    memset(v->array, 0, sizeof(double) * len);
+    return v;
+}
+
 vect_s * vect_copy(vect_s const * v) {
     if (v == NULL) return NULL;
     vect_s* v2 = calloc(1, sizeof(vect_s));

@@ -11,6 +11,7 @@ struct _vect_s
 typedef struct _vect_s vect_s;
 
 vect_s * vect_init(double * array, int len); 
+vect_s * vect_zeros(int len);
 vect_s * vect_copy(vect_s const * v);
 void vect_free(vect_s * v);
 double vect_dot_product(vect_s const * v1, vect_s const * v2, int * state);

@@ -47,3 +47,14 @@ vect_s *crossover(vect_s const *v1, vect_s const *v2)
     }
     return ret;
 }
+
+vect_s * generate_b(double arg1, double arg2, double arg3) {
+    vect_s * b = vect_zeros(24 + 4 * 8);
+    for (int i = 24; i < 24 + 4 * 8; i += 4) {
+        b->array[i] = 1;
+        b->array[i+1] = -arg1 - arg2 - arg3;
+        b->array[i+2] = arg1 * arg2 + arg2 * arg3 + arg1 * arg3;
+        b->array[i+3] = -arg1 * arg2 * arg3;
+    }
+    return b;
+}

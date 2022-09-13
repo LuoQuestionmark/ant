@@ -43,11 +43,17 @@ int main() {
     vect_print(v4);
     puts("\n-----------\n\n");
 
+    puts("vector zeros: \n");
+    vect_s * v5 = vect_zeros(5);
+    vect_print(v5);
+    puts("\n-----------\n\n");
+
     vect_free(v1);
     vect_free(v1bis);
     vect_free(v2);
     vect_free(v3);
     vect_free(v4);
+    vect_free(v5);
 
     return 0;
 }
