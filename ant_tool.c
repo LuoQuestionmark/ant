@@ -13,10 +13,11 @@ vect_s *mutation(vect_s const *src, double rate)
 {
     vect_s *new = calloc(1, sizeof(vect_s));
     new->len = src->len;
+    new->array = calloc(src->len, sizeof(double));
 
     for (int i = 0; i < new->len; i++)
     {
-        new->array[i] = src->array[i] + rate *randn();
+        new->array[i] = src->array[i] + rate * randn();
     }
     return new;
 }
