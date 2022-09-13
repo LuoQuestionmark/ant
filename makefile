@@ -6,9 +6,10 @@ LDFLAGS = -fsanitize=address
 clean:
 	rm -f *.o
 	rm -f test
+	rm -f test2
 
 .PHONY : all
-all : test
+all : test test2
 
 %.o: %.c %.h
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -17,4 +18,7 @@ my_vect: my_vect.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
 test: test.o ant_tool.o my_vect.o
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+
+test2: test2.o ant_tool.o my_vect.o
 	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)

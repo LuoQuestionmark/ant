@@ -25,8 +25,11 @@ struct mat
 typedef struct mat mat_s;
 
 mat_s * mat_init(vect_s ** vects, int size);
+mat_s * mat_add_row(mat_s * m, vect_s * v);
+mat_s * mat_zeros(int row, int col);
 void mat_free(mat_s * m);
 void mat_print(mat_s * m);
 
+mat_s * mat_prod(mat_s const * m1, mat_s const * m2);
 
 #endif

@@ -46,10 +46,11 @@ double vect_dot_product(vect_s const * v1, vect_s const * v2, int * state) {
 }
 
 void vect_print(vect_s * v) {
-    printf("vect: ");
+    printf("[ ");
     for (int i = 0; i < v->len; i++) {
         printf("%lf ", v->array[i]);
     }
+    printf("]");
 }
 
 mat_s * mat_init(vect_s ** vects, int size) {
@@ -60,4 +61,64 @@ mat_s * mat_init(vect_s ** vects, int size) {
         m->vects[i] = vect_copy(vects[i]);
     }
     return m;
+}
+
+mat_s * mat_add_row(mat_s * m, vect_s * v) {
+    if (m->vects == NULL || m->vects[0] == NULL) {
+        return NULL;
+    }
+    if (m->vects[0]->len != v->len) return NULL;
+
+    m->size += 1;
+    vect_s ** tmp = calloc(m->size, sizeof(vect_s *));
+    memcpy(tmp, m->vects, (m->size-1) * sizeof(vect_s *));
+    free(m->vects);
+    m->vects = tmp;
+    m->vects[m->size-1] = v;
+    return m;
+}
+
+mat_s * mat_zeros(int row, int col) {
+    if (row <= 0 || col <= 0) return NULL;
+    vect_s * vz = calloc(col, sizeof(double));
+    mat_s * m = calloc(1, sizeof(mat_s));
+    m->vects = calloc(row, sizeof(vect_s*));
+    for (int i = 0; i < row; i++) {
+        m->vects[i] = vect_copy(vz);
+    }
+    vect_free(vz);
+    return m;
+}
+
+void mat_print(mat_s * m){
+    for (int i = 0; i < m->size - 1; i++) {
+        if (i == 0) printf("[ ");
+        else printf("  ");
+        vect_print(m->vects[i]);
+        puts("");
+    }
+    printf("  ");
+    vect_print(m->vects[m->size - 1]);
+    printf(" ]");
+}
+
+void mat_free(mat_s * m) {
+    for (int i = 0; i < m->size; i++) {
+        vect_free(m->vects[i]);
+    }
+    free(m->vects);
+    free(m);
+}
+
+mat_s * mat_prod(mat_s const * m1, mat_s const * m2) {
+    if (m1->vects == NULL || m1->vects[0] == NULL) {
+        return NULL;
+    }
+    if (m2->vects == NULL || m2->vects[0] == NULL) {
+        return NULL;
+    }
+    if (m1->vects[0]->len != m2->size) return NULL;
+
+    // TODO: not finish!
+    return NULL;
 }
