@@ -13,22 +13,33 @@ int main() {
     double d2[3] = {2, 3.4, 1};
     v2 = vect_init(d2, 3);
 
-    printf("vector ");
+    puts("vector product: \n");
     vect_print(v1);
-    printf(" time to vector ");
+    puts("\ntime to vector \n");
     vect_print(v2);
-    printf("equal to %lf\n", vect_dot_product(v1, v2, NULL));
+    printf("\nequal to %lf\n", vect_dot_product(v1, v2, NULL));
+    puts("\n-----------\n\n");
 
-    printf("mutation of vector: ");
+    puts("mutation of vector: \n");
     vect_print(v1);
-    printf(" :");
+    puts("\nmutate to: ");
     vect_s * v1bis = mutation(v1, 1);
     vect_print(v1bis);
-    puts("");
+    puts("\n-----------\n\n");
+
+    puts("crossover of vector: \n");
+    vect_print(v1);
+    puts("\ntimes to");
+    vect_print(v2);
+    puts("\ngive the result");
+    vect_s * v3 = crossover(v1, v2);
+    vect_print(v3);
+    puts("\n-----------\n\n");
 
     vect_free(v1);
     vect_free(v1bis);
     vect_free(v2);
+    vect_free(v3);
 
     return 0;
 }
