@@ -61,6 +61,14 @@ int main() {
     mat_print(m5);
     puts("\n-----------\n");
 
+    puts("init from values: \n");
+    puts("{{1,2,3},{4,5,6}}");
+    double vars[6] = {1, 2, 3, 4, 5, 6};
+    mat_s * m6 = mat_init2(2, 3, vars);
+
+    mat_print(m6);
+    puts("\n-----------\n\n");
+
     vect_free(v1);
     vect_free(v2);
     vect_free(v3);
@@ -72,5 +80,6 @@ int main() {
     mat_free(m3);
     mat_free(m4);
     mat_free(m5);
+    mat_free(m6);
     return 0;
 }

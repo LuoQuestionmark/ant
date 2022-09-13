@@ -63,18 +63,16 @@ mat_s * mat_init(vect_s ** vects, int size) {
     return m;
 }
 
-mat_s * mat_add_row(mat_s * m, vect_s * v) {
-    if (m->vects == NULL || m->vects[0] == NULL) {
-        return NULL;
+mat_s * mat_init2(int row, int col, double * vars) {
+    if (vars == NULL) return NULL;
+    mat_s * m = mat_zeros(row, col);
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < col; j++) {
+            int dep = i * col + j;
+            double var = vars[dep];
+            m->vects[i]->array[j] = var;
+        }
     }
-    if (m->vects[0]->len != v->len) return NULL;
-
-    m->size += 1;
-    vect_s ** tmp = calloc(m->size, sizeof(vect_s *));
-    memcpy(tmp, m->vects, (m->size-1) * sizeof(vect_s *));
-    free(m->vects);
-    m->vects = tmp;
-    m->vects[m->size-1] = v;
     return m;
 }
 
@@ -90,6 +88,21 @@ mat_s * mat_zeros(int row, int col) {
         m->vects[i] = vect_copy(vz);
     }
     vect_free(vz);
+    return m;
+}
+
+mat_s * mat_add_row(mat_s * m, vect_s * v) {
+    if (m->vects == NULL || m->vects[0] == NULL) {
+        return NULL;
+    }
+    if (m->vects[0]->len != v->len) return NULL;
+
+    m->size += 1;
+    vect_s ** tmp = calloc(m->size, sizeof(vect_s *));
+    memcpy(tmp, m->vects, (m->size-1) * sizeof(vect_s *));
+    free(m->vects);
+    m->vects = tmp;
+    m->vects[m->size-1] = v;
     return m;
 }
 
