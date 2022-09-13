@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "my_vect.h"
 
 int true_value = 1;
@@ -12,6 +13,15 @@ vect_s * vect_init(double * array, int len) {
         v->array[i] = array[i];
     }
     return v;
+}
+
+vect_s * vect_copy(vect_s const * v) {
+    if (v == NULL) return NULL;
+    vect_s* v2 = calloc(1, sizeof(vect_s));
+    v2->len = v->len;
+    v2->array = calloc(v2->len, sizeof(double));
+    memcpy(v2->array, v->array, v->len * sizeof(double));
+    return v2;
 }
 
 void vect_free(vect_s * v) {
@@ -40,4 +50,14 @@ void vect_print(vect_s * v) {
     for (int i = 0; i < v->len; i++) {
         printf("%lf ", v->array[i]);
     }
+}
+
+mat_s * mat_init(vect_s ** vects, int size) {
+    mat_s * m = calloc(1, sizeof(mat_s));
+    m->size = size;
+    m->vects = calloc(size, sizeof(vect_s *));
+    for (int i = 0; i < size; i++) {
+        m->vects[i] = vect_copy(vects[i]);
+    }
+    return m;
 }
