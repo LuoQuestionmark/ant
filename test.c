@@ -36,10 +36,18 @@ int main() {
     vect_print(v3);
     puts("\n-----------\n\n");
 
+    puts("copy of vector: \n");
+    vect_print(v1);
+    puts("\ngive the result");
+    vect_s * v4 = vect_copy(v1);
+    vect_print(v4);
+    puts("\n-----------\n\n");
+
     vect_free(v1);
     vect_free(v1bis);
     vect_free(v2);
     vect_free(v3);
+    vect_free(v4);
 
     return 0;
 }
