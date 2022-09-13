@@ -123,6 +123,15 @@ mat_s * mat_prod(mat_s const * m1, mat_s const * m2) {
     }
     if (m1->vects[0]->len != m2->size) return NULL;
 
-    // TODO: not finish!
-    return NULL;
+    mat_s * m3 = mat_zeros(m1->size, m2->vects[0]->len);
+    for (int i = 0; i < m1->size; i++) {
+        for (int j = 0; j < m2->vects[0]->len; j++) {
+            int local_sum = 0;
+            for (int k = 0; k < m2->size; k++) {
+                local_sum += m1->vects[i]->array[k] * m2->vects[k]->array[j];
+            }
+            m3->vects[i]->array[j] = local_sum; // SUM
+        }
+    }
+    return m3;
 }
