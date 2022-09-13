@@ -80,8 +80,11 @@ mat_s * mat_add_row(mat_s * m, vect_s * v) {
 
 mat_s * mat_zeros(int row, int col) {
     if (row <= 0 || col <= 0) return NULL;
-    vect_s * vz = calloc(col, sizeof(double));
+    vect_s * vz = calloc(1, sizeof(vect_s));
+    vz->len = col;
+    vz->array = calloc(col, sizeof(double));
     mat_s * m = calloc(1, sizeof(mat_s));
+    m->size = row;
     m->vects = calloc(row, sizeof(vect_s*));
     for (int i = 0; i < row; i++) {
         m->vects[i] = vect_copy(vz);
@@ -91,6 +94,7 @@ mat_s * mat_zeros(int row, int col) {
 }
 
 void mat_print(mat_s * m){
+    if (m->size == 0) return;
     for (int i = 0; i < m->size - 1; i++) {
         if (i == 0) printf("[ ");
         else printf("  ");
