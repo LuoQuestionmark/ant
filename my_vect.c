@@ -1,9 +1,11 @@
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "my_vect.h"
 
-int true_value = 1;
+const int true_value = 1;
+const int false_value = 0;
 
 vect_s * vect_init(double * array, int len) {
     vect_s* v = calloc(1, sizeof(vect_s));
@@ -47,6 +49,45 @@ double vect_dot_product(vect_s const * v1, vect_s const * v2, int * state) {
     for (int i = 0; i < v1->len; i++) {
         ans += v1->array[i] * v2->array[i];
     }
+    if (state != NULL) {
+        state = &true_value;
+    }
+    return ans;
+}
+
+double vect_norm2(vect_s const * v) {
+    double sum = 0;
+    for (int i = 0; i < v->len; i++) {
+        sum += v->array[i] * v->array[i];
+    }
+
+    return sqrt(sum);
+}
+
+double vect_norminf(vect_s const * v) {
+    double val = 0;
+    for (int i = 0; i < v->len; i++) {
+        int tmp = fabs(v->array[i]);
+        if (tmp > val) {
+            val = tmp;
+        }
+    }
+    return val;
+}
+
+vect_s * vect_sub(vect_s const * v1, vect_s const * v2, int * state) {
+    if (v1->len != v2->len) {
+        if (state != NULL) {
+            state = &false_value;
+        }
+        return NULL;
+    }
+
+    vect_s* ans = vect_copy(v1);
+    for (int i = 0; i < v1->len; i++) {
+        ans->array[i] -= v2->array[i];
+    }
+
     if (state != NULL) {
         state = &true_value;
     }
@@ -133,6 +174,25 @@ void mat_free(mat_s * m) {
     }
     free(m->vects);
     free(m);
+}
+
+mat_s* mat_transpose(mat_s const * m) {
+    if (m == NULL || m->vects == NULL || m->vects[0] == NULL) {
+        puts("invalid argument in mat transpose");
+        exit(1);
+    }
+    int origin_h = m->size;
+    int origin_w = m->vects[0]->len;
+
+    mat_s* out = mat_zeros(origin_w, origin_h);
+
+    for (int i = 0; i < origin_h; i++) {
+        for (int j = 0; j < origin_w; j++) {
+            out->vects[j]->array[i] = m->vects[i]->array[j];
+        }
+    }
+
+    return out;
 }
 
 mat_s * mat_prod(mat_s const * m1, mat_s const * m2) {
