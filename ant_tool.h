@@ -10,8 +10,10 @@ double evaluate(vect_s const * v);
 
 typedef mat_s population;
 
-vect_s * generate_b(double arg1, double arg2, double arg3);
 mat_s * generate_a(double arg1, double arg2, double arg3);
+vect_s * generate_b(double arg1, double arg2, double arg3);
+vect_s * generate_rand_x();
+
 
 // population* population_create(int size);
 // void population_free(population* p);

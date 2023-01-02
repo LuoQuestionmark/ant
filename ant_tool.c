@@ -50,7 +50,7 @@ vect_s *crossover(vect_s const *v1, vect_s const *v2)
 }
 
 vect_s * generate_b(double arg1, double arg2, double arg3) {
-    vect_s * b = vect_zeros(24 + 4 * 8);
+    vect_s * b = vect_zeros(12 + 4 * 4);
     for (int i = 12; i < 12 + 16; i += 4) {
         b->array[i] = 1;
         b->array[i+1] = -arg1 - arg2 - arg3;
@@ -123,6 +123,20 @@ mat_s * generate_a(double arg1, double arg2, double arg3) {
     return ma;
 }
 
+vect_s * generate_rand_x() {
+    vect_s * x = vect_zeros(20);
+    for (int i = 0; i < 3; i++) {
+        x->array[i] = -fabs(randn());
+    }
+    for (int i = 3; i < 15; i++) {
+        x->array[i] = +fabs(randn());
+    }
+    for (int i =15; i < 20; i++) {
+        x->array[i] = randn();
+    }
+    return x;
+}
+
 double evaluate(vect_s const* v) {
     if (v->len != 3 + 17) {
         printf("wrong input size of vector at line %d in evaluate function", __LINE__);
@@ -143,7 +157,8 @@ double evaluate(vect_s const* v) {
 
 
     mat_s* mat_result = mat_prod(mat_a, mat_X);
-    vect_s* vect_result = mat_result->vects[0]; // don't free this!
+    mat_s* mat_result2 = mat_transpose(mat_result);
+    vect_s* vect_result = mat_result2->vects[0]; // don't free this!
     vect_s* diff = vect_sub(vect_result, vec_b, NULL);
     double val = vect_norm2(diff) / vect_norm2(vec_b) + 0.01 * vect_norminf(diff) / vect_norminf(vec_b);
 
@@ -151,6 +166,7 @@ double evaluate(vect_s const* v) {
     vect_free(vec_b);
     mat_free(mat_X);
     mat_free(mat_result);
+    mat_free(mat_result2);
     vect_free(diff);
 
     return val;

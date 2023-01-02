@@ -97,9 +97,10 @@ vect_s * vect_sub(vect_s const * v1, vect_s const * v2, int * state) {
 void vect_print(vect_s * v) {
     printf("[ ");
     for (int i = 0; i < v->len; i++) {
-        printf("%lf ", v->array[i]);
+        printf("%f ", v->array[i]);
     }
     printf("]");
+    fflush(stdout);
 }
 
 mat_s * mat_init(vect_s ** vects, int size) {
